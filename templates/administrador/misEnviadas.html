@@ -1,0 +1,169 @@
+{% load static %}
+<!doctype html>
+<html><head>
+    <meta charset="utf-8">
+    <title>De Luxe S.A.C</title>
+
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="">
+    <meta name="author" content="">
+    <link rel="stylesheet" href="https://pro.fontawesome.com/releases/v5.10.0/css/all.css" integrity="sha384-AYmEC3Yw5cVb3ZcuHtOA93w35dYTsvhLPVnYs9eStHfGJvOvKxVfELGroGkvsg+p" crossorigin="anonymous"/>
+    <link rel="icon" type="image/jpg" href="{% static 'images/deluxe.jpg' %}">
+    <!-- Le styles -->
+    <link rel="stylesheet" type="text/css" href="{% static 'bootstrap/css/bootstrap.min.css' %}" />
+
+    <!-- DATA TABLE CSS -->
+    <link href="{% static 'css/table.css' %}" rel="stylesheet">
+  
+    <script type="text/javascript" src="{% static 'js/jquery.js' %}"></script>
+    <script type="text/javascript" src="{% static 'bootstrap/js/bootstrap.min.js' %}"></script>
+
+    <script type="text/javascript" src="{% static 'js/admin.js' %}"></script>
+    
+    <style type="text/css">
+      body {
+        padding-top: 60px;
+      }
+      nav li>ul{
+      display:none;
+      }
+    </style>
+
+    <!-- Le HTML5 shim, for IE6-8 support of HTML5 elements -->
+    <!--[if lt IE 9]>
+      <script src="http://html5shim.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+        
+  	<!-- Google Fonts call. Font Used Open Sans -->
+  	<link href="http://fonts.googleapis.com/css?family=Open+Sans" rel="stylesheet" type="text/css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
+
+  	<!-- DataTables Initialization -->
+    <script type="text/javascript" src="{% static 'js/datatables/jquery.dataTables.js' %}"></script>
+  			<script type="text/javascript" charset="utf-8">
+  			    $(document).ready(function () {
+  			        $('#dt1').dataTable();
+  			    });
+	</script>
+
+    
+  </head>
+  <body>
+  
+  	<!-- NAVIGATION MENU -->
+
+    <div class="navbar-nav navbar-inverse navbar-fixed-top">
+        <div class="container">
+        <div class="navbar-header">
+          <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+          </button>
+          <a class="navbar-brand" href="{% url 'index' %}"><img src="{% static 'images/deluxe.jpg' %}" alt="" height="15"> DeLuxe S.A.C</a>
+        </div> 
+          <div class="navbar-collapse collapse">
+            <ul class="nav navbar-nav">
+              <li><a href="{% url 'index' %}"><i class="icon-home icon-white"></i> Inicio</a></li>
+              
+              <li class="dropdown active">
+              <a href="" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="true"> <span class="nav-label">Asistencias</span> <span class="caret"></span></a>
+              <ul class="dropdown-menu">
+                <li><a href="{% url 'misEnviadas' %}">Enviadas</a></li>
+                <li><a href="{% url 'misAsistencias' %}">Mis Asistencias</a></li>
+                <li><a href="{% url 'misInasistencias' %}">Mis Inasistencias</a></li>
+              </ul>
+              </li>
+               <li><a href="{% url 'logout' %}"><i class="icon-user icon-white"></i> Cerrar Sesión</a></li>
+
+            </ul>
+          </div><!--/.nav-collapse -->
+        </div>
+    </div>
+
+    <div class="container">
+
+      <!-- CONTENT -->
+        {% if request.user.empleado %}
+	<div class="row">
+		<div class="col-sm-12 col-lg-12">
+		
+        
+		<h4><strong>Lista de Asistencias Enviadas</strong></h4>
+
+		<table class="display" id="dt1">
+        <thead>
+          <tr>
+            <th>ID</th>
+            <th>Empleado</th>
+            <th>Cargo</th>
+            <th>Fecha</th>
+            <th>Hora de Entrada</th>
+            <th>Hora de Salida</th>
+            <th>Estado</th>
+            <th>Acciones</th>
+
+          </tr>
+        </thead>
+
+        <tbody>
+{% for asistencia in filtro_misEnviadas %}
+        
+          <tr class="odd gradeC">
+            <td> {{ asistencia.id }} </td>
+            <td> {{ asistencia.Empleado }} </td>
+            <td> {{ asistencia.Cargo }} </td>
+            <td> {{ asistencia.fecha }} </td>
+            <td> {{ asistencia.horaentrada }} </td>
+            <td> {{ asistencia.horasalida }} </td>
+            <td> {{ asistencia.estado }} </td>
+            <td><center>
+            <a href="{% url 'deleteMiasistencia' asistencia.id %}"><i class="fas fa-trash-alt fa-lg text-danger"> </i> </a> </center>
+            </center>
+            </td>
+              
+          </tr>
+               {% endfor %}
+        </tbody>
+
+      </table><!--/END SECOND TABLE -->
+	
+           
+		</div><!--/span12 -->
+        
+      </div><!-- /row -->
+        {% endif %}
+<style>
+           div.a{
+             float: right;
+             margin-top:10px;
+           }
+           
+           </style>
+          <div class="a"><center><a class="submit btn-success btn btn-large" href="{%  url 'createMiasistencia' %}"><i class="icon-home icon-white"></i>Ingresar mi nueva asistencia</a></center></div>
+           <br>
+
+     </div> <!-- /container -->
+    	<br>	
+
+      	<!-- /container -->
+      	<br>
+	<!-- FOOTER -->	
+	<div id="footerwrap">
+      	<footer class="clearfix"></footer>
+      	<div class="container">
+      		<div class="row">
+      			<div class="col-sm-12 col-lg-12">
+      			<p><img src="{% static 'images/deluxe.jpg' %}" alt="" height="30"></p>
+      			<p>DeLuxe S.A.C Todos Los Derechos Reservados 2021</p>
+      			</div>
+
+      		</div><!-- /row -->
+      	</div><!-- /container -->		
+	</div><!-- /footerwrap -->
+<script>
+/* When the user clicks on the button, 
+toggle between hiding and showing the dropdown content */
+
+</body></html>

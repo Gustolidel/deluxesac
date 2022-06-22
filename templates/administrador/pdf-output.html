@@ -1,0 +1,59 @@
+{% load static %}
+<!doctype html>
+<html>
+<head>
+<meta charset='UTF-8'/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>PDF Output</title>
+<style>
+@page{
+    size: "A4";
+    margin: 2.5cm 1.5cm 3.5cm 1.5cm;
+
+    @top-center{
+        content: "DeLuxe Perú";
+    }
+
+    @bottom-right{
+        content: "Page " counter(page) " of " counter(pages);
+    }
+}
+</style>
+</head>
+<body>
+<img src="https://ii.ct-stc.com/3/logos/empresas/2019/05/14/24533c72b9fc46418918164026928thumbnail.gif"/>
+
+<h2>Lista de Reportes</h2>
+<table class="table">
+<thead class="thead">
+<tr>
+<th>ID</th>
+<th>Empleado</th>
+<th>Cargo</th>
+<th>Fecha</th>
+<th>Hora Entrada</th>
+<th>Hora Salida</th>
+<th>Estado</th>
+</tr>
+</thead>
+<tbody>
+{% for reporte in reportes %}
+<tr>
+<td>{{reporte.id}}</td>
+<td>{{reporte.Empleado}}</td>
+<td>{{reporte.cargo}}</td>
+<td>{{reporte.fecha}}</td>
+<td> {{reporte.horaentrada}}</td>
+<td> {{reporte.horasalida}}</td>
+<td>{{reporte.estado}}</td>
+</tr>
+{% endfor %}
+<tr>
+<td> Total </td>
+<td> {{ total }} </td>
+</tr>
+</tbody>
+</table>
+
+</body>
+</html>

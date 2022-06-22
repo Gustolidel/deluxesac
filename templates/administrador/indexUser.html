@@ -1,0 +1,147 @@
+{% load static %}
+<!doctype html>
+<html><head>
+    <meta charset="utf-8">
+    <title>De Luxe S.A.C</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="">
+    <meta name="author" content="">
+
+    <!-- Le styles -->
+    <link rel="stylesheet" type="text/css" href="{% static 'bootstrap/css/bootstrap.min.css' %}" />
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
+    <link rel="icon" type="image/jpg" href="{% static 'images/deluxe.jpg' %}">
+    <link href="{% static 'css/main.css' %}" rel="stylesheet">
+    <link href="{% static 'css/font-style.css' %}" rel="stylesheet">
+    <link href="{% static 'css/register.css' %}" rel="stylesheet">
+
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js" integrity="sha512-894YE6QWD5I59HgZOGReFYm4dnWc1Qt5NtvYSaNcOP+u1T9qYdvdihz0PPSiiqn/+/3e7Jo4EaG7TubfWGUrMQ==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+  <script src="https://code.jquery.com/jquery-3.1.0.min.js"></script>
+<script src="https://code.jquery.com/jquery-3.2.1.min.js"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+    <style type="text/css">
+      body {
+        padding-top: 60px;
+      }
+    </style>
+
+    <!-- Le HTML5 shim, for IE6-8 support of HTML5 elements -->
+    <!--[if lt IE 9]>
+      <script src="http://html5shim.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+
+  	<!-- Google Fonts call. Font Used Open Sans & Raleway -->
+	<link href="http://fonts.googleapis.com/css?family=Raleway:400,300" rel="stylesheet" type="text/css">
+  	<link href="http://fonts.googleapis.com/css?family=Open+Sans" rel="stylesheet" type="text/css">
+	</head>
+  <body>
+
+  	<!-- NAVIGATION MENU -->
+
+    <div class="navbar-nav navbar-inverse navbar-fixed-top">
+        <div class="container">
+        <div class="navbar-header">
+          <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+          </button>
+          <a class="navbar-brand" href="{% url 'indexUser' %}"><img src="{% static 'images/deluxe.jpg' %}" alt="" height="15"> DeLuxe S.A.C</a>
+        </div>
+          <div class="navbar-collapse collapse">
+            <ul class="nav navbar-nav">
+                <li ><a href="{% url 'indexUser' %}"><i class="icon-home icon-white"></i> Inicio</a></li>
+                <li class="dropdown">
+              <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="true"> <span class="nav-label">Asistencias</span> <span class="caret"></span></a>
+              <ul class="dropdown-menu">
+                <li><a href="{% url 'misEnviadas' %}">Enviadas</a></li>
+                <li><a href="{% url 'misAsistencias' %}">Mis Asistencias</a></li>
+                <li><a href="{% url 'misInasistencias' %}">Mis Inasistencias</a></li>
+              </ul>
+              </li>
+                <li><a href="{% url 'logout' %}"><i class="icon-user icon-white"></i> Cerrar Sesión</a></li>
+            </ul>
+          </div><!--/.nav-collapse -->
+        </div>
+    </div>
+
+    <div class="container">
+    <div style="text-align: center;">
+        		<div id="register-info-wraper">
+    <h3>Bienvenido {{user.username}}</h3>
+    <div class="row">
+    
+      <div class="col-md-4 " style=" padding-right: 40px; padding-left: 40px;">
+        <h5>Usuario Empleado</h5>
+        <form id="addUser" action="">
+          <div class="form-group">
+          <div class="thumbnail">
+            <img src="{% static 'images/empleado.png' %}" alt="" class="img-circle">
+          </div>
+          </div>
+        </form>
+      </div>
+      <div class="col-md-8" style=" padding-right: 40px; padding-left: 40px;">
+        <h5>Datos de Usuario Empleado</h5>
+        <table id="userTable" class="table table-striped">
+          
+          {% if user %}
+              <h2>{{ user.first_name }} {{ user.last_name }}</h2>
+        				</div>
+                        {% if request.user.empleado %}
+        				<div class="row">
+        					<div class="col-lg-4">
+        						<div class="cont3">
+        							<p><ok>Nombre de Usuario:</ok> {{ user.username }}</p>
+        							<p><ok>Correo Electrónico:</ok> {{ user.email }}</p>
+        							<p><ok>Nombre:</ok> {{ user.empleado.nombre }}</p>
+        							
+        						</div>
+        					</div>
+        					<div class="col-lg-4">
+        						<div class="cont3">
+        						
+                                <p><ok>Registrado el:</ok> {{ user.date_joined }}</p>
+        						<p><ok>Reciente actividad:</ok> <br>{{ user.last_login }} </p>
+        						
+        						</div>
+        					</div>
+                  <div class="col-lg-4">
+        						<div class="cont3">
+                    <p><ok>Fecha de Nacimiento:</ok> {{ user.empleado.fechanacimiento }}</p>
+        							<p><ok>Edad:</ok> {{ user.empleado.edad }}</p>
+                      <p><ok>Genero:</ok> {{user.empleado.genero}}</p>
+        						</div>
+        					</div>
+                  
+        				</div><br><br>
+        		             <div class="info-user2">
+								<a href="{% url 'updateEmpleado' user.empleado.id %}"><span aria-hidden="true" class="li_user fs1"></span></a>
+								<a href="{% url 'indexUser' %}"><span aria-hidden="true" class="li_settings fs1"></span></a>
+								<a href="{% url 'logout' %}"><span aria-hidden="true" class="li_lock fs1"></span></a>
+							</div>
+                      {% endif %}
+          {% else %}
+            No hay Datos
+          {% endif %}
+        </table>
+      </div>
+    </div>
+    
+  </div>
+  
+	<div id="footerwrap">
+      	<footer class="clearfix"></footer>
+      	<div class="container">
+      		<div class="row">
+      			<div class="col-sm-12 col-lg-12">
+      			<p><img src="{% static 'images/deluxe.jpg' %}" alt="" height="30"></p>
+      			<p>Empresa de Transportes De Luxe S.A.C - Copyright 2021</p>
+      			</div>
+
+      		</div><!-- /row -->
+      	</div><!-- /container -->
+	</div><!-- /footerwrap -->
+
+   
+</body></html>

@@ -1,0 +1,291 @@
+{% load static %}
+<!doctype html>
+<html><head>
+    <meta charset="utf-8">
+    <title>De Luxe S.A.C</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="">
+    <meta name="author" content="">
+
+    <!-- Le styles -->
+    <link rel="stylesheet" type="text/css" href="{% static 'bootstrap/css/bootstrap.min.css' %}" />
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
+    <link rel="icon" type="image/jpg" href="{% static 'images/deluxe.jpg' %}">
+    <link href="{% static 'css/main.css' %}" rel="stylesheet">
+    <link href="{% static 'css/font-style.css' %}" rel="stylesheet">
+    <link href="{% static 'css/register.css' %}" rel="stylesheet">
+
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js" integrity="sha512-894YE6QWD5I59HgZOGReFYm4dnWc1Qt5NtvYSaNcOP+u1T9qYdvdihz0PPSiiqn/+/3e7Jo4EaG7TubfWGUrMQ==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+  <script src="https://code.jquery.com/jquery-3.1.0.min.js"></script>
+<script src="https://code.jquery.com/jquery-3.2.1.min.js"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+    <style type="text/css">
+      body {
+        padding-top: 60px;
+      }
+    </style>
+
+    <!-- Le HTML5 shim, for IE6-8 support of HTML5 elements -->
+    <!--[if lt IE 9]>
+      <script src="http://html5shim.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+
+  	<!-- Google Fonts call. Font Used Open Sans & Raleway -->
+	<link href="http://fonts.googleapis.com/css?family=Raleway:400,300" rel="stylesheet" type="text/css">
+  	<link href="http://fonts.googleapis.com/css?family=Open+Sans" rel="stylesheet" type="text/css">
+	</head>
+  <body>
+
+  	<!-- NAVIGATION MENU -->
+
+    <div class="navbar-nav navbar-inverse navbar-fixed-top">
+        <div class="container">
+        <div class="navbar-header">
+          <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+          </button>
+          <a class="navbar-brand" href="{% url 'index' %}"><img src="{% static 'images/deluxe.jpg' %}" alt="" height="15"> DeLuxe S.A.C</a>
+        </div>
+          <div class="navbar-collapse collapse">
+            <ul class="nav navbar-nav">
+                <li ><a href="{% url 'index' %}"><i class="icon-home icon-white"></i> Inicio</a></li>
+                <li><a href="{% url 'tables' %}"><i class="icon-th icon-white"></i> Empleados</a></li>
+			          <li class="active"><a href="{% url 'Buses' %}"><i class="icon-user icon-white"></i> Buses</a></li>
+                <li class="dropdown">
+              <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="true"> <span class="nav-label">Asistencias</span> <span class="caret"></span></a>
+              <ul class="dropdown-menu">
+                <li><a href="{% url 'revisar' %}">Por Revisar</a></li>
+                <li><a href="{% url 'asistencias' %}">Asistencias</a></li>
+                <li><a href="{% url 'inasistencias' %}">Inasistencias</a></li>
+                <li><a href="{% url 'reportes' %}">Reportes</a></li>
+              </ul>
+              </li>
+                <li><a href="{% url 'user' %}"><i class="icon-user icon-white"></i> Usuarios</a></li>
+                <li><a href="{% url 'logout' %}"><i class="icon-user icon-white"></i> Cerrar Sesión</a></li>
+            </ul>
+          </div><!--/.nav-collapse -->
+        </div>
+    </div>
+
+    <div class="container">
+    <div style="text-align: center;">
+        		<div id="register-wraper">
+    <h3>Lista de Buses</h3>
+    <div class="row">
+    
+      <div class="col-md-4 " style=" padding-right: 40px; padding-left: 40px;">
+        <h4>Registrar Buses</h4>
+        <form id="addUser" action="" >
+          <div class="form-group">
+            <input class="form-control" type="text" name="placa" placeholder="Placa" required>
+          </div>
+          <div class="form-group">
+            <input class="form-control" type="text" name="modelo" placeholder="Modelo" required>
+          </div>
+          <div class="form-group">
+            <input class="form-control" type="text" name="marca" placeholder="Marca" required>
+          </div>
+          <button class="btn btn-primary form-control" type="submit">Registrar Bus</button>
+        </form>
+        
+      </div>
+      <div class="col-md-8" style=" padding-right: 40px; padding-left: 40px;">
+        <h4>Buses</h4>
+        <table id="userTable" class="table table-striped">
+          <tr>
+            <th>Placa</th>
+            <th>Modelo</th>
+            <th colspan="3">Marca</th>
+          </tr>
+          {% if buses %}
+          {% for bus in buses %}
+          <tr id="user-{{bus.id}}">
+              <td class="userName userData" name="name">{{bus.placa}}</td>
+              <td class="userAddress userData" name="address">{{bus.modelo}}</td>
+              <td class="userAge userData" name="age">{{bus.marca}}</td>
+              <td align="center">
+                  <button class="btn btn-success form-control" onClick="editUser({{bus.id}})" data-toggle="modal" data-target="#myModal")">Editar</button>
+              
+              </td>
+              <td align="center">
+                  <button class="btn btn-danger form-control" onClick="deleteUser({{bus.id}})">Eliminar</button>
+              </td>
+          </tr>
+
+          {% endfor %}
+          {% else %}
+            No hay Buses
+          {% endif %}
+        </table>
+      </div>
+    </div>
+    
+  </div>
+  <!-- Modal -->
+  <div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+    <div class="modal-dialog" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">×</span></button>
+          <h4 class="modal-title" id="myModalLabel">Actualizar Bus</h4>
+        </div>
+        <form id="updateUser" action="">
+        <div class="modal-body">
+            <input class="form-control" id="form-id" type="hidden" name="formId"/>
+            <label for="name">Placa</label>
+            <input class="form-control" id="form-name" type="text" name="formPlaca"/>
+            <label for="address">Modelo</label>
+            <input class="form-control" id="form-address" type="text" name="formModelo"/>
+            <label for="age">Marca</label>
+            <input class="form-control" id="form-age" type="text" name="formMarca" />
+        </div>
+        <div class="modal-footer">
+            <button type="submit" class="btn btn-primary" >Guardar Cambios</button>
+            <button type="button" class="btn btn-default" data-dismiss="modal">Cerrar</button>
+        </div>
+        </form>
+      </div>
+    </div>
+    </div></div>
+  </div>
+
+	<div id="footerwrap">
+      	<footer class="clearfix"></footer>
+      	<div class="container">
+      		<div class="row">
+      			<div class="col-sm-12 col-lg-12">
+      			<p><img src="{% static 'images/deluxe.jpg' %}" alt="" height="30"></p>
+      			<p>Empresa de Transportes De Luxe S.A.C - Copyright 2021</p>
+      			</div>
+
+      		</div><!-- /row -->
+      	</div><!-- /container -->
+	</div><!-- /footerwrap -->
+
+    <script>
+// Create Django Ajax Call
+$("form#addUser").submit(function() {
+    var placaInput = $('input[name="placa"]').val().trim();
+    var modeloInput = $('input[name="modelo"]').val().trim();
+    var marcaInput = $('input[name="marca"]').val().trim();
+    if (placaInput && modeloInput && marcaInput) {
+        // Create Ajax Call
+        $.ajax({
+            url: '{% url "createBus" %}',
+            data: {
+                'placa': placaInput,
+                'modelo': modeloInput,
+                'marca': marcaInput
+            },
+            dataType: 'json',
+            success: function (data) {
+                if (data.bus) {
+                  appendToUsrTable(data.bus);
+                }
+            }
+        });
+      } else {
+        alert("Todos los campos deben tener un valor válido.");
+    }
+    $('form#addUser').trigger("reset");
+    return false;
+});
+function appendToUsrTable(bus) {
+  $("#userTable > tbody:last-child").append(`
+        <tr id="user-${bus.id}">
+            <td class="userName" name="name">${bus.placa}</td>
+            '<td class="userAddress" name="address">${bus.modelo}</td>
+            '<td class="userAge" name="age">${bus.marca}</td>
+            '<td align="center">
+                <button class="btn btn-success form-control" onClick="editUser(${bus.id})" data-toggle="modal" data-target="#myModal")">Editar</button>
+            </td>
+            <td align="center">
+                <button class="btn btn-danger form-control" onClick="deleteUser(${bus.id})">Eliminar</button>
+            </td>
+        </tr>
+    `);
+}
+
+
+// Update Django Ajax Call
+function editUser(id) {
+  if (id) {
+    tr_id = "#user-" + id;
+    placa = $(tr_id).find(".userName").text();
+    modelo = $(tr_id).find(".userAddress").text();
+    marca = $(tr_id).find(".userAge").text();
+    $('#form-id').val(id);
+    $('#form-name').val(placa);
+    $('#form-address').val(modelo);
+    $('#form-age').val(marca);
+    
+  }
+}
+$("form#updateUser").submit(function() {
+  
+    var idInput = $('input[name="formId"]').val().trim();
+    var placaInput = $('input[name="formPlaca"]').val().trim();
+    var modeloInput = $('input[name="formModelo"]').val().trim();
+    var marcaInput = $('input[name="formMarca"]').val().trim();
+    if (placaInput && modeloInput && marcaInput) {
+        // Create Ajax Call
+        $.ajax({
+            url: '{% url "updateBus" %}',
+            data: {
+                'id': idInput,
+                'placa': placaInput,
+                'modelo': modeloInput,
+                'marca': marcaInput
+            },
+            dataType: 'json',
+            success: function (data) {
+                if (data.bus) {
+                  updateToUserTabel(data.bus);
+                }
+            }
+        });
+       } else {
+        alert("Todos los campos deben tener un valor correcto.");
+    }
+    $('form#updateUser').trigger("reset");
+    $('#myModal').modal('hide');
+    
+    return false;
+});
+
+function updateToUserTabel(bus){
+    $("#userTable #user-" + bus.id).children(".userData").each(function() {
+        var attr = $(this).attr("placa");
+        if (attr == "placa") {
+          $(this).text(bus.placa);
+        } else if (attr == "modelo") {
+          $(this).text(bus.modelo);
+        } else {
+          $(this).text(bus.marca);
+        }
+      });
+      
+    location.reload(false);
+}
+function deleteUser(id) {
+  var action = confirm("¿Esta seguro que desea eliminar este registro?");
+  if (action != false) {
+    $.ajax({
+        url: '{% url "deleteBus" %}',
+        data: {
+            'id': id,
+        },
+        dataType: 'json',
+        success: function (data) {
+            if (data.deleted) {
+              $("#userTable #user-" + id).remove();
+            }
+        }
+    });
+  }
+}
+</script>
+
+</body></html>
