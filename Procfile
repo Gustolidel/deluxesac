@@ -1,1 +1,1 @@
-web: gunicorn deluxe.wsgi --log-file -
+web: gunicorn DeLuxe.wsgi --log-file -
