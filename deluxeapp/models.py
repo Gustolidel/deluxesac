@@ -4,7 +4,7 @@ from django.forms.models import model_to_dict
 from django.utils import timezone
 # Create your models here.
 from django.contrib.auth.models import User
-
+from django.core.validators import MaxValueValidator, MinValueValidator 
 
 
 
@@ -17,7 +17,7 @@ class Empleado(models.Model):
     user = models.OneToOneField(User,null=True, on_delete=models.CASCADE)
     nombre = models.CharField(max_length=50)
     genero = models.IntegerField(null=True, blank=False, choices=Empleado_genero)
-    edad = models.IntegerField(null=True)
+    edad = models.PositiveIntegerField(null=True, validators=[MinValueValidator(1), MaxValueValidator(100)])
     fechanacimiento = models.DateField(null=True)
 
     
